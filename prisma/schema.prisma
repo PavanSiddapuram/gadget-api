@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"  // Change this if using PostgreSQL later
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  username String @unique
+  email    String @unique
+  password String
+}
+
+model Gadget {
+  id             String   @id @default(uuid())
+  name           String
+  brand          String
+  status         String   @default("Available")
+  createdAt      DateTime @default(now())
+}
