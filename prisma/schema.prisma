@@ -3,21 +3,30 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"  // Change this if using PostgreSQL later
+  provider = "mysql" // Changed from postgresql
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id       String @id @default(uuid())
-  username String @unique
-  email    String @unique
+  id       String   @id @default(uuid())
+  username String   @unique
+  email    String   @unique
   password String
+  createdAt DateTime @default(now())
 }
 
 model Gadget {
-  id             String   @id @default(uuid())
-  name           String
-  brand          String
-  status         String   @default("Available")
-  createdAt      DateTime @default(now())
+  id              String    @id @default(uuid())
+  name            String
+  status          Status    @default(Available)
+  decommissionedAt DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+enum Status {
+  Available
+  Deployed
+  Destroyed
+  Decommissioned
 }
